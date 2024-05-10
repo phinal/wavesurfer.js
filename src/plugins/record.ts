@@ -20,7 +20,11 @@ export type RecordPluginOptions = {
 
 export type RecordPluginDeviceOptions = {
   /** The device ID of the microphone to use */
-  deviceId?: string | { exact: string }
+  deviceId?: string | { exact: string },
+  autoGainControl?: boolean | { exact: string },
+  noiseSuppression?: boolean | { exact: string },
+  voiceIsolation?: boolean | { exact: string },
+  echoCancellation?: boolean | { exact: string }
 }
 
 export type RecordPluginEvents = BasePluginEvents & {
@@ -153,6 +157,10 @@ class RecordPlugin extends BasePlugin<RecordPluginEvents, RecordPluginOptions> {
     try {
       stream = await navigator.mediaDevices.getUserMedia({
         audio: options?.deviceId ? { deviceId: options.deviceId } : true,
+        autoGainControl: : options?.autoGainControl ? { autoGainControl: options.autoGainControl } : false,
+        noiseSuppression: : options?.noiseSuppression ? { noiseSuppression: options.noiseSuppression } : false,
+        voiceIsolation: : options?.voiceIsolation ? { voiceIsolation: options.voiceIsolation } : false,
+        echoCancellation: : options?.echoCancellation ? { echoCancellation: options.echoCancellation } : false
       })
     } catch (err) {
       throw new Error('Error accessing the microphone: ' + (err as Error).message)
